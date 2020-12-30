@@ -10,3 +10,7 @@ class Book(models.Model):
     book_cover = models.TextField(default='No image available')
     price = models.IntegerField()
     description = models.TextField()
+
+    def __str__(self):
+        return self.title
+

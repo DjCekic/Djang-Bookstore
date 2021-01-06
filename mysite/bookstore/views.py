@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 from .models import Book
 from django.template import loader
-
+from .forms import BookForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 
@@ -26,9 +26,8 @@ def books(request):
 
 @login_required
 def details(request, book_id):
-    book = Book.objects.get(pk=book_id)
-    context = {'book': book,
-               'book_image': book.book_cover}
+    book = get_object_or_404(Book, id=book_id)
+    context = {'book': book}
     return render(request, 'bookstore/details.html', context)
 
 
@@ -45,3 +44,19 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'bookstore/signup.html', {'form': form})
+
+
+@permission_required('bookstore:add_book')
+def new(req):
+    if req.method == 'POST':
+        form = BookForm(req.POST)
+
+        if form.is_valid():
+            book = Book(title=form.cleaned_data['title'], author=form.cleaned_data['author'], category=form.cleaned_data['category'], book_cover=form.cleaned_data['book_cover'], price=form.cleaned_data['price'], description=form.cleaned_data['description'], owner=req.user)
+            book.save()
+            return redirect('bookstore:books')
+        else:
+            return render(req, 'new.html', {'form': form})
+    else:
+        form = BookForm()
+        return render(req, 'bookstore/new.html', {'form': form})

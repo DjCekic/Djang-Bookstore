@@ -1,0 +1,13 @@
+{%  extends 'master.html' %}
+
+{% block title %}
+    Goodbye!
+{% endblock %}
+
+{%  block content %}
+    <p>Logged out!</p>
+    <a href="{% url 'login'%}" style="color:#F08080">Click here to login again.</a>
+    <p></p>
+    <a href="{% url 'bookstore:signup'%}"style="color:#F08080">Click here to create a new account.</a>
+{%  endblock %}
+

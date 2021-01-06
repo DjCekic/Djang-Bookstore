@@ -1,0 +1,19 @@
+
+
+
+
+{%  extends 'master.html' %}
+
+{% block title %}
+    Books
+{% endblock %}
+
+{%  block content %}
+    <div class="list-group">
+        {% for book in latest_books_list %}
+            <a class="list-group-item list-group-item-action" href="{% url 'bookstore:book_details' book.id %}">
+                {{ book.title }}
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}

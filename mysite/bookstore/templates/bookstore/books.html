@@ -5,22 +5,24 @@
 {% endblock %}
 
 {%  block content %}
-    <div class="list-group">
+    <div class="row row-cols-4">
         {% for book in latest_books_list %}
-             <a href="{% url 'bookstore:book_details' book.id %}">
-            <div class="card" style="width: 18rem;">
+            <div class="col" style="width: 18rem;">
+                <a href="{% url 'bookstore:book_details' book.id %}" style="color:#DEB887">
+
               <img src="{% static book.book_cover %}" style="width:160px;height:240px;"/>
               <div class="card-body">
                 <h5 class="card-title">{{book.title}}</h5>
 
 
               </div>
-            </div>
+
 
 
 
 
             </a>
+            </div>
         {% endfor %}
     </div>
 {% endblock %}
